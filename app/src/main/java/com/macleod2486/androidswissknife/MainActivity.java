@@ -18,15 +18,58 @@
 
 package com.macleod2486.androidswissknife;
 
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.macleod2486.androidswissknife.components.Flashlight;
 
 public class MainActivity extends AppCompatActivity
 {
+    Button toggleLight;
+    Flashlight toggleLightListener;
+
+    //Different request codes
+    final int CAMERA_CODE = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        toggleLight = (Button)this.findViewById(R.id.toggleLight);
+        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
+        {
+            toggleLightListener = new Flashlight(this, CAMERA_CODE);
+            toggleLight.setOnClickListener(toggleLightListener);
+        }
+
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case CAMERA_CODE:
+            {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    toggleLightListener.toggleLight();
+                }
+                else
+                {
+                    Toast.makeText(this,"Need to enable camera permissions", Toast.LENGTH_SHORT).show();
+                }
+
+                return;
+            }
+        }
+
+    }
+
 }
