@@ -25,13 +25,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.macleod2486.androidswissknife.components.Flashlight;
+import com.macleod2486.androidswissknife.components.Wifi;
 
 public class MainActivity extends AppCompatActivity
 {
+    //Torch
     Button toggleLight;
     Flashlight toggleLightListener;
 
-    //Different request codes
+    //Wifi
+    Button toggleWifi;
+    Wifi toggleWifiListener;
+
+    //Request codes
     final int CAMERA_CODE = 0;
 
     @Override
@@ -48,6 +54,12 @@ public class MainActivity extends AppCompatActivity
             toggleLight.setOnClickListener(toggleLightListener);
         }
 
+        toggleWifi = (Button)this.findViewById(R.id.toggleWifi);
+        if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI))
+        {
+            toggleWifiListener = new Wifi(this);
+            toggleWifi.setOnClickListener(toggleWifiListener);
+        }
     }
 
     @Override
@@ -63,7 +75,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    Toast.makeText(this,"Need to enable camera permissions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Need to enable all wifi permissions", Toast.LENGTH_SHORT).show();
                 }
 
                 return;
