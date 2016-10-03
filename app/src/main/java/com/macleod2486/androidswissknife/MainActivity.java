@@ -25,10 +25,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.macleod2486.androidswissknife.components.Flashlight;
+import com.macleod2486.androidswissknife.components.Location;
 import com.macleod2486.androidswissknife.components.Wifi;
 
 public class MainActivity extends AppCompatActivity
 {
+    //Location
+    Button toggleLocation;
+    Location location;
+
     //Torch
     Button toggleLight;
     Flashlight toggleLightListener;
@@ -59,6 +64,13 @@ public class MainActivity extends AppCompatActivity
         {
             toggleWifiListener = new Wifi(this);
             toggleWifi.setOnClickListener(toggleWifiListener);
+        }
+
+        toggleLocation = (Button)this.findViewById(R.id.toggleGps);
+        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS))
+        {
+            location = new Location(this);
+            toggleLocation.setOnClickListener(location);
         }
     }
 

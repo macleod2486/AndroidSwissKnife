@@ -30,4 +30,16 @@
         android:id="@+id/toggleWifi"
         android:layout_alignRight="@+id/toggleLight"
         android:layout_alignEnd="@+id/toggleLight" />
+
+    <Button
+        android:text="Toggle GPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toggleWifi"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:id="@+id/toggleGps"
+        android:layout_alignRight="@+id/toggleWifi"
+        android:layout_alignEnd="@+id/toggleWifi" />
 </RelativeLayout>
