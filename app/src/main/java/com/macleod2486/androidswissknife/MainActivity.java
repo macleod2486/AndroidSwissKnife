@@ -19,31 +19,53 @@
 package com.macleod2486.androidswissknife;
 
 import android.content.pm.PackageManager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.widget.Button;
+
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.macleod2486.androidswissknife.components.Flashlight;
-import com.macleod2486.androidswissknife.components.Location;
-import com.macleod2486.androidswissknife.components.Wifi;
+import com.macleod2486.androidswissknife.views.Toggles;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends ActionBarActivity
 {
-    //Location
-    Button toggleLocation;
-    Location location;
-
-    //Torch
-    Button toggleLight;
-    Flashlight toggleLightListener;
-
-    //Wifi
-    Button toggleWifi;
-    Wifi toggleWifiListener;
+    int index = 0;
 
     //Request codes
     final int CAMERA_CODE = 0;
+
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle drawerToggle;
+
+    //Different fragments
+    Toggles toggleFrag = new Toggles();
+
+    //Manages what the back button does
+    @Override
+    public void onBackPressed()
+    {
+        if(drawer.isDrawerOpen(GravityCompat.START))
+        {
+            Log.i("Main","Drawer closed");
+            drawer.closeDrawers();
+        }
+
+        if(index == 0 && !toggleFrag.isAdded())
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "main").commit();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,26 +74,50 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        toggleLight = (Button)this.findViewById(R.id.toggleLight);
-        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
+        //Configures the drawer
+        drawer = (DrawerLayout)findViewById(R.id.drawer);
+        drawerToggle = new ActionBarDrawerToggle(this, drawer, R.mipmap.ic_drawer, R.string.drawer_open, R.string.drawer_close)
         {
-            toggleLightListener = new Flashlight(this, CAMERA_CODE);
-            toggleLight.setOnClickListener(toggleLightListener);
-        }
+            public void onDrawerClosed(View view)
+            {
+                getSupportActionBar().setTitle(R.string.drawer_close);
+                super.onDrawerClosed(view);
+            }
 
-        toggleWifi = (Button)this.findViewById(R.id.toggleWifi);
-        if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI))
-        {
-            toggleWifiListener = new Wifi(this);
-            toggleWifi.setOnClickListener(toggleWifiListener);
-        }
+            public void onDrawerOpened(View drawerView)
+            {
+                getSupportActionBar().setTitle(R.string.drawer_open);
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        drawer.setDrawerListener(drawerToggle);
+        drawer.setDrawerLockMode(drawer.LOCK_MODE_UNLOCKED);
 
-        toggleLocation = (Button)this.findViewById(R.id.toggleGps);
-        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS))
+        //Sets up the listview within the drawer
+        String [] menuList = getResources().getStringArray(R.array.menu);
+        ListView list = (ListView)findViewById(R.id.optionList);
+        list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuList));
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
-            location = new Location(this);
-            toggleLocation.setOnClickListener(location);
-        }
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id)
+            {
+                Log.i("MainActivity","Position "+position);
+                if(position == 0)
+                {
+                    index = 0;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "toggles").commit();
+                }
+                drawer.closeDrawers();
+            }
+        });
+
+        //Make the actionbar clickable to bring out the drawer
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        //Displays the first fragment
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "toggle").commit();
     }
 
     @Override
@@ -83,7 +129,7 @@ public class MainActivity extends AppCompatActivity
             {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-                    toggleLightListener.toggleLight();
+                    toggleFrag.toggleLight();
                 }
                 else
                 {

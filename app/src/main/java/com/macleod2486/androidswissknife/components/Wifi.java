@@ -20,17 +20,17 @@ package com.macleod2486.androidswissknife.components;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
 public class Wifi implements View.OnClickListener
 {
-    AppCompatActivity activity;
+    FragmentActivity activity;
 
     WifiManager wifiManager;
 
-    public Wifi(AppCompatActivity activity)
+    public Wifi(FragmentActivity activity)
     {
         this.activity = activity;
         this.wifiManager = (WifiManager) this.activity.getSystemService(Context.WIFI_SERVICE);

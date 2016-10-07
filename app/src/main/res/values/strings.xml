@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidSwissKnife</string>
+    <string name="drawer_open">Features</string>
+    <string name="drawer_close">AndroidSwissKnife</string>
+    <string-array
+        name = "menu">
+        <item>Toggles</item>
+    </string-array>
 </resources>

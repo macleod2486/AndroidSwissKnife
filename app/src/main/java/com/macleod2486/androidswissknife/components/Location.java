@@ -20,14 +20,14 @@ package com.macleod2486.androidswissknife.components;
 
 import android.content.Intent;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 public class Location implements View.OnClickListener
 {
-    AppCompatActivity activity;
+    FragmentActivity activity;
 
-    public Location(AppCompatActivity activity)
+    public Location(FragmentActivity activity)
     {
         this.activity = activity;
     }

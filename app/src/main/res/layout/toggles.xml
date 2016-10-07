@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle Torch"
+        android:id="@+id/toggleLight"
+        android:enabled="true"
+        android:layout_weight="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:text="Toggle GPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleGps"
+        android:layout_weight="1"
+        android:layout_below="@+id/toggleLight"
+        android:layout_alignLeft="@+id/toggleLight"
+        android:layout_alignStart="@+id/toggleLight"
+        android:layout_alignRight="@+id/toggleLight"
+        android:layout_alignEnd="@+id/toggleLight" />
+
+    <Button
+        android:text="Toggle Wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleWifi"
+        android:layout_weight="1"
+        android:layout_below="@+id/toggleGps"
+        android:layout_alignLeft="@+id/toggleGps"
+        android:layout_alignStart="@+id/toggleGps"
+        android:layout_alignRight="@+id/toggleGps"
+        android:layout_alignEnd="@+id/toggleGps" />
+</RelativeLayout>

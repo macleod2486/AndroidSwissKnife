@@ -23,22 +23,22 @@ import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 public class Flashlight implements View.OnClickListener
 {
-    AppCompatActivity activity;
+    FragmentActivity activity;
     boolean torchOn = false;
     int requestCode;
 
     Camera cam;
     Camera.Parameters p;
 
-    public Flashlight(AppCompatActivity activity, int code)
+    public Flashlight(FragmentActivity activity, int code)
     {
         this.requestCode = code;
         this.activity = activity;
@@ -60,8 +60,6 @@ public class Flashlight implements View.OnClickListener
                 turnOnLight();
             }
         }
-
-        Log.i("Flashlight", "Click captured");
     }
 
     public void toggleLight()
