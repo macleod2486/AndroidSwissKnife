@@ -117,7 +117,7 @@ public class MainActivity extends ActionBarActivity
         getSupportActionBar().setHomeButtonEnabled(true);
 
         //Displays the first fragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "toggle").commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "toggles").commit();
     }
 
     @Override
