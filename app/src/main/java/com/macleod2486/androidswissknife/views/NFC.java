@@ -40,11 +40,13 @@ public class NFC extends Fragment
     {
         View view = inflater.inflate(R.layout.nfc, container, false);
 
-        tool= new NFCTool();
+        tool = new NFCTool(getActivity());
 
         readNFC = (Button)view.findViewById(R.id.readNFC);
+        readNFC.setOnClickListener(tool);
 
         writeNFC = (Button)view.findViewById(R.id.writeNFC);
+        writeNFC.setOnClickListener(tool);
 
         return view;
     }

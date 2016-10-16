@@ -18,7 +18,10 @@
 
 package com.macleod2486.androidswissknife;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.macleod2486.androidswissknife.views.NFC;
 import com.macleod2486.androidswissknife.views.Toggles;
 
 public class MainActivity extends ActionBarActivity
@@ -46,6 +50,7 @@ public class MainActivity extends ActionBarActivity
 
     //Different fragments
     Toggles toggleFrag = new Toggles();
+    NFC nfcFrag = new NFC();
 
     //Manages what the back button does
     @Override
@@ -108,6 +113,12 @@ public class MainActivity extends ActionBarActivity
                     index = 0;
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "toggles").commit();
                 }
+                else if(position == 1)
+                {
+                    index = 1;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, nfcFrag, "nfc").commit();
+                }
+
                 drawer.closeDrawers();
             }
         });

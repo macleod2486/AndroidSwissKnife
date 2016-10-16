@@ -18,18 +18,77 @@
 
 package com.macleod2486.androidswissknife.components;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcA;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.macleod2486.androidswissknife.R;
 
 public class NFCTool implements View.OnClickListener
 {
-    public NFCTool()
-    {
+    NfcAdapter adapter;
 
+    FragmentActivity activity;
+
+    public NFCTool(FragmentActivity activity)
+    {
+        this.activity = activity;
+        adapter = NfcAdapter.getDefaultAdapter(activity.getApplicationContext());
     }
 
     @Override
     public void onClick(View view)
     {
+        Log.i("NFCTool","Clicked");
 
+        if(view.getId() == R.id.readNFC)
+        {
+            if (adapter == null)
+            {
+                Toast.makeText(this.activity, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (!adapter.isEnabled())
+            {
+                Toast.makeText(this.activity, "NFC is disabled", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            read();
+        }
+    }
+
+    private void read()
+    {
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, new Intent(activity, NFCActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(NfcAdapter.ACTION_TAG_DISCOVERED);
+        filter.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        filter.addAction(NfcAdapter.ACTION_TECH_DISCOVERED);
+
+        IntentFilter[] filterArray = new IntentFilter[] {filter};
+
+        String [][] techListsArray = new String[][] { new String[] { MifareUltralight.class.getName(), Ndef.class.getName(), NfcA.class.getName()},
+                new String[] { MifareClassic.class.getName(), Ndef.class.getName(), NfcA.class.getName()}};
+
+        adapter.enableForegroundDispatch(activity, pendingIntent, filterArray, techListsArray);
+
+        Toast.makeText(this.activity, "Please scan tag with device.", Toast.LENGTH_LONG).show();
+    }
+
+    private void write()
+    {
+        Log.i("NFCTool","Write");
     }
 }
