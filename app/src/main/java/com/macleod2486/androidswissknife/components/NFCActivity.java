@@ -27,6 +27,7 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -48,8 +49,6 @@ public class NFCActivity extends Activity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.nfctaglayout);
-
-        tagResult = (TextView)findViewById(R.id.tagResult);
 
         onNewIntent(getIntent());
     }
@@ -74,7 +73,11 @@ public class NFCActivity extends Activity
 
         if(mode.equals("read"))
         {
+            tagResult = (TextView)findViewById(R.id.tagResult);
+
             String [] tlist = tag.getTechList();
+            Ndef ndefTag;
+
             Log.i("NFCActivity", "Content "+tag.describeContents());
 
             tagResult.append("Tech used: ");
@@ -82,7 +85,23 @@ public class NFCActivity extends Activity
             {
                 tagResult.append(tlist[index]+", ");
             }
-            tagResult.append("\nContents: " + tag.describeContents());
+
+            try
+            {
+                ndefTag = Ndef.get(tag);
+                ndefTag.connect();
+
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                NdefRecord relayRecord = ((NdefMessage)rawMsgs[0]).getRecords()[0];
+                String nfcData = new String(relayRecord.getPayload());
+
+                tagResult.append("\nContents: " + nfcData);
+                ndefTag.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         if(mode.equals("write"))

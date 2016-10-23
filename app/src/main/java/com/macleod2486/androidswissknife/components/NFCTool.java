@@ -77,6 +77,7 @@ public class NFCTool implements View.OnClickListener
 
     private void read()
     {
+        Log.i("NFCTool","Read");
         Intent nfcIntent = new Intent(activity.getApplicationContext(),NFCActivity.class);
         nfcIntent.putExtra("NFCMode","read");
         nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
