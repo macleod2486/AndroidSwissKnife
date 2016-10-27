@@ -60,6 +60,7 @@ public class NFCActivity extends Activity
 
         Bundle extras = intent.getExtras();
         mode = extras.getString("NFCMode");
+        String bundleMessage = extras.getString("NFCMessage");
 
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
@@ -110,7 +111,8 @@ public class NFCActivity extends Activity
             try
             {
                 // Get UTF-8 byte
-                String content = "This is a test";
+                Log.i("NFCActivity","Message "+bundleMessage);
+                String content = bundleMessage;
 
                 byte[] lang = Locale.getDefault().getLanguage().getBytes("UTF-8");
 
@@ -121,10 +123,6 @@ public class NFCActivity extends Activity
                 int textLength = text.length;
 
                 ByteArrayOutputStream payload = new ByteArrayOutputStream(1 + langSize + textLength);
-
-                payload.write((byte) (langSize & 0x1F));
-
-                payload.write(lang, 0, langSize);
 
                 payload.write(text, 0, textLength);
 
