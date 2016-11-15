@@ -18,7 +18,6 @@
 
 package com.macleod2486.androidswissknife.components;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,52 +54,11 @@ public class NFCTool implements View.OnClickListener
     {
         Log.i("NFCTool","Clicked");
 
-        if(view.getId() == R.id.readNFC)
-        {
-            if (adapter == null)
-            {
-                Toast.makeText(this.activity, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            if (!adapter.isEnabled())
-            {
-                Toast.makeText(this.activity, "NFC is disabled", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            read();
-        }
-
         if(view.getId() == R.id.writeNFC)
         {
             Log.i("NFCTool","Writing");
             write();
         }
-    }
-
-    private void read()
-    {
-        Log.i("NFCTool","Read");
-        Intent nfcIntent = new Intent(activity.getApplicationContext(),NFCActivity.class);
-        nfcIntent.putExtra("NFCMode","read");
-        nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, nfcIntent, 0);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(NfcAdapter.ACTION_TAG_DISCOVERED);
-        filter.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        filter.addAction(NfcAdapter.ACTION_TECH_DISCOVERED);
-
-        IntentFilter[] filterArray = new IntentFilter[] {filter};
-
-        String [][] techListsArray = new String[][] { new String[] { MifareUltralight.class.getName(), Ndef.class.getName(), NfcA.class.getName()},
-                new String[] { MifareClassic.class.getName(), Ndef.class.getName(), NfcA.class.getName()}};
-
-        adapter.enableForegroundDispatch(activity, pendingIntent, filterArray, techListsArray);
-
-        Toast.makeText(this.activity, "Please scan tag with device.", Toast.LENGTH_LONG).show();
     }
 
     private void write()

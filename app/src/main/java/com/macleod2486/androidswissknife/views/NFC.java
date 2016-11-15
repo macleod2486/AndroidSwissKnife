@@ -30,7 +30,6 @@ import com.macleod2486.androidswissknife.components.NFCTool;
 
 public class NFC extends Fragment
 {
-    Button readNFC;
     Button writeNFC;
 
     NFCTool tool;
@@ -41,9 +40,6 @@ public class NFC extends Fragment
         View view = inflater.inflate(R.layout.nfc, container, false);
 
         tool = new NFCTool(getActivity());
-
-        readNFC = (Button)view.findViewById(R.id.readNFC);
-        readNFC.setOnClickListener(tool);
 
         writeNFC = (Button)view.findViewById(R.id.writeNFC);
         writeNFC.setOnClickListener(tool);
