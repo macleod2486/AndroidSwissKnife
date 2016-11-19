@@ -76,17 +76,7 @@ public class NFCActivity extends Activity
         {
             tagResult = (TextView)findViewById(R.id.tagResult);
 
-
-            //String [] tlist = tag.getTechList();
-            //Ndef ndefTag;
-
             Log.i("NFCActivity", "Content "+tag.describeContents());
-
-            /*tagResult.append("Tech used: ");
-            for(int index = 0; index < tlist.length; index++)
-            {
-                tagResult.append(tlist[index]+", ");
-            }*/
 
             try
             {
