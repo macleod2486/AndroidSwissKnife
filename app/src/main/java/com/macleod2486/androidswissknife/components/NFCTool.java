@@ -43,6 +43,8 @@ public class NFCTool implements View.OnClickListener
 
     FragmentActivity activity;
 
+    EditText entryText;
+
     public NFCTool(FragmentActivity activity)
     {
         this.activity = activity;
@@ -68,26 +70,14 @@ public class NFCTool implements View.OnClickListener
         final EditText input = new EditText(activity);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity)
-                .setView(input)
-                .setTitle("Write Mode")
-                .setMessage("What do you want to be written to tag?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        setUpWrite(input.getText().toString());
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                });
-
-        alertDialogBuilder.show();
+        entryText = (EditText)this.activity.findViewById(R.id.textEntry);
+        setUpWrite(entryText.getText().toString());
     }
 
     private void setUpWrite(String message)
     {
+        entryText.setText("");
+
         Log.i("NFCTool","Message received "+message);
         Intent nfcIntent = new Intent(activity.getApplicationContext(),NFCActivity.class);
         nfcIntent.putExtra("NFCMode","write");

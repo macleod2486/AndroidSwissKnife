@@ -76,27 +76,28 @@ public class NFCActivity extends Activity
         {
             tagResult = (TextView)findViewById(R.id.tagResult);
 
-            String [] tlist = tag.getTechList();
-            Ndef ndefTag;
+
+            //String [] tlist = tag.getTechList();
+            //Ndef ndefTag;
 
             Log.i("NFCActivity", "Content "+tag.describeContents());
 
-            tagResult.append("Tech used: ");
+            /*tagResult.append("Tech used: ");
             for(int index = 0; index < tlist.length; index++)
             {
                 tagResult.append(tlist[index]+", ");
-            }
+            }*/
 
             try
             {
-                ndefTag = Ndef.get(tag);
+                Ndef ndefTag = Ndef.get(tag);
                 ndefTag.connect();
 
                 Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
                 NdefRecord relayRecord = ((NdefMessage)rawMsgs[0]).getRecords()[0];
                 String nfcData = new String(relayRecord.getPayload());
 
-                tagResult.append("\nContents: " + nfcData);
+                tagResult.append(nfcData);
                 ndefTag.close();
             }
             catch (Exception e)
@@ -107,6 +108,7 @@ public class NFCActivity extends Activity
 
         if(mode.equals("write"))
         {
+            tagResult = (TextView)findViewById(R.id.tagResult);
 
             try
             {
@@ -147,9 +149,12 @@ public class NFCActivity extends Activity
                     ndefTag.writeNdefMessage(message);
                     ndefTag.close();
                 }
+
+                tagResult.append("\nTag written");
             }
             catch(Exception e)
             {
+                tagResult.append("\nTag failed to write");
                 e.printStackTrace();
             }
         }
