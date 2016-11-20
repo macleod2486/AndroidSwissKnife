@@ -31,6 +31,7 @@ import com.macleod2486.androidswissknife.components.NFCTool;
 public class NFC extends Fragment
 {
     Button writeNFC;
+    Button clearText;
 
     NFCTool tool;
 
@@ -43,6 +44,9 @@ public class NFC extends Fragment
 
         writeNFC = (Button)view.findViewById(R.id.writeNFC);
         writeNFC.setOnClickListener(tool);
+
+        clearText = (Button)view.findViewById(R.id.clearText);
+        clearText.setOnClickListener(tool);
 
         return view;
     }

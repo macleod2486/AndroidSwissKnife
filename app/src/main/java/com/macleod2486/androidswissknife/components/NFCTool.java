@@ -19,7 +19,6 @@
 package com.macleod2486.androidswissknife.components;
 
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
@@ -28,7 +27,6 @@ import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcA;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +46,6 @@ public class NFCTool implements View.OnClickListener
     public NFCTool(FragmentActivity activity)
     {
         this.activity = activity;
-        adapter = NfcAdapter.getDefaultAdapter(activity.getApplicationContext());
     }
 
     @Override
@@ -56,10 +53,20 @@ public class NFCTool implements View.OnClickListener
     {
         Log.i("NFCTool","Clicked");
 
+        adapter = NfcAdapter.getDefaultAdapter(activity.getApplicationContext());
+
         if(view.getId() == R.id.writeNFC)
         {
+            adapter.disableForegroundDispatch(activity);
             Log.i("NFCTool","Writing");
             write();
+        }
+
+        if(view.getId() == R.id.clearText)
+        {
+            Log.i("NFCTool","Clearing text");
+            entryText = (EditText)this.activity.findViewById(R.id.textEntry);
+            entryText.setText("");
         }
     }
 
@@ -67,16 +74,12 @@ public class NFCTool implements View.OnClickListener
     {
         Log.i("NFCTool","Write");
 
-        final EditText input = new EditText(activity);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-
         entryText = (EditText)this.activity.findViewById(R.id.textEntry);
         setUpWrite(entryText.getText().toString());
     }
 
     private void setUpWrite(String message)
     {
-        entryText.setText("");
 
         Log.i("NFCTool","Message received "+message);
         Intent nfcIntent = new Intent(activity.getApplicationContext(),NFCActivity.class);

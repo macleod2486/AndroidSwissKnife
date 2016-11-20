@@ -75,12 +75,11 @@ public class NFCActivity extends Activity
         if(mode.equals("read"))
         {
             tagResult = (TextView)findViewById(R.id.tagResult);
+            tagResult.setText("");
 
-            Log.i("NFCActivity", "Content "+tag.describeContents());
-
+            Ndef ndefTag = Ndef.get(tag);
             try
             {
-                Ndef ndefTag = Ndef.get(tag);
                 ndefTag.connect();
 
                 Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
@@ -92,6 +91,7 @@ public class NFCActivity extends Activity
             }
             catch (Exception e)
             {
+                tagResult.append("Error reading tag");
                 e.printStackTrace();
             }
         }
@@ -125,16 +125,37 @@ public class NFCActivity extends Activity
                 Ndef ndefTag = Ndef.get(tag);
                 if (ndefTag == null)
                 {
+                    Log.i("NFCActivity","Formatting tag");
                     NdefFormatable nForm = NdefFormatable.get(tag);
                     if (nForm != null)
                     {
-                        nForm.connect();
-                        nForm.format(message);
-                        nForm.close();
+                        try
+                        {
+                            nForm.connect();
+
+                            try
+                            {
+                                nForm.format(message);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        finally
+                        {
+                            nForm.close();
+                        }
                     }
                 }
                 else
                 {
+                    Log.i("NFCActivity","Writing tag");
                     ndefTag.connect();
                     ndefTag.writeNdefMessage(message);
                     ndefTag.close();
