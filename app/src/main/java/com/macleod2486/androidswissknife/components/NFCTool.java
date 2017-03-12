@@ -27,7 +27,6 @@ import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcA;
 import android.support.v4.app.FragmentActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;

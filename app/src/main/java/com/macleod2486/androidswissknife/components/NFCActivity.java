@@ -51,6 +51,8 @@ public class NFCActivity extends Activity
         setContentView(R.layout.nfctaglayout);
 
         onNewIntent(getIntent());
+
+        Log.i("NFCActivity","Tag "+getIntent().getAction());
     }
 
     @Override
@@ -72,102 +74,177 @@ public class NFCActivity extends Activity
         Log.i("NFCActivity","Mode "+mode);
         Log.i("NFCActivity","Intent received");
 
+        tagResult = (TextView)findViewById(R.id.tagResult);
+        tagResult.setText("");
+
         if(mode.equals("read"))
         {
-            tagResult = (TextView)findViewById(R.id.tagResult);
-            tagResult.setText("");
+            boolean validTech = false;
 
-            Ndef ndefTag = Ndef.get(tag);
-            try
+            for(int index = 0; index < tag.getTechList().length; index++)
             {
-                ndefTag.connect();
+                Log.i("NFCActivity","Tech list "+tag.getTechList()[index]);
 
-                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-                NdefRecord relayRecord = ((NdefMessage)rawMsgs[0]).getRecords()[0];
-                String nfcData = new String(relayRecord.getPayload());
-
-                tagResult.append(nfcData);
-                ndefTag.close();
+                switch (tag.getTechList()[index])
+                {
+                    case "Ndef":
+                    case "NdefFormatable":
+                    {
+                        readNDEFtag(tag, intent);
+                        validTech = true;
+                        break;
+                    }
+                    default:
+                    {
+                        Log.i("NFCActivity","Defaulting");
+                        break;
+                    }
+                }
             }
-            catch (Exception e)
+
+            if(!validTech)
             {
-                tagResult.append("Error reading tag");
-                e.printStackTrace();
+                tagResult.setText("We don't support this NFC tag");
             }
         }
 
         if(mode.equals("write"))
         {
-            tagResult = (TextView)findViewById(R.id.tagResult);
+            boolean validTech = false;
 
-            try
+            for(int index = 0; index < tag.getTechList().length; index++)
             {
-                // Get UTF-8 byte
-                Log.i("NFCActivity","Message "+bundleMessage);
-                String content = bundleMessage;
+                Log.i("NFCActivity","Tech list "+tag.getTechList()[index]);
 
-                byte[] lang = Locale.getDefault().getLanguage().getBytes("UTF-8");
-
-                byte[] text = content.getBytes("UTF-8"); // Content in UTF-8
-
-                int langSize = lang.length;
-
-                int textLength = text.length;
-
-                ByteArrayOutputStream payload = new ByteArrayOutputStream(1 + langSize + textLength);
-
-                payload.write(text, 0, textLength);
-
-                NdefRecord record = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload.toByteArray());
-
-                NdefMessage message = new NdefMessage(new NdefRecord[]{record});
-
-                Ndef ndefTag = Ndef.get(tag);
-                if (ndefTag == null)
+                switch (tag.getTechList()[index])
                 {
-                    Log.i("NFCActivity","Formatting tag");
-                    NdefFormatable nForm = NdefFormatable.get(tag);
-                    if (nForm != null)
+                    case "Ndef":
+                    case "NdefFormatable":
                     {
+                        writeNDEFtag(tag, bundleMessage);
+                        validTech = true;
+                        break;
+                    }
+                    default:
+                    {
+                        Log.i("NFCActivity","Defaulting");
+                        break;
+                    }
+                }
+            }
+
+            if(!validTech)
+            {
+                tagResult.setText("We don't support this NFC tag");
+            }
+        }
+    }
+
+    private void readNDEFtag(Tag tag, Intent intent)
+    {
+        try
+        {
+            Ndef ndefTag = Ndef.get(tag);
+
+            ndefTag.connect();
+
+            if(ndefTag.isConnected())
+            {
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                NdefRecord relayRecord = ((NdefMessage)rawMsgs[0]).getRecords()[0];
+                String nfcData = new String(relayRecord.getPayload());
+
+                tagResult.append(nfcData);
+            }
+            else
+            {
+                tagResult.append("Error reading tag");
+            }
+
+            ndefTag.close();
+        }
+        catch (Exception e)
+        {
+            tagResult.append("Error reading tag");
+            e.printStackTrace();
+        }
+    }
+
+    private void writeNDEFtag(Tag tag, String bundleMessage)
+    {
+        try
+        {
+            // Get UTF-8 byte
+            Log.i("NFCActivity","Message "+bundleMessage);
+            String content = bundleMessage;
+
+            byte[] lang = Locale.getDefault().getLanguage().getBytes("UTF-8");
+
+            byte[] text = content.getBytes("UTF-8"); // Content in UTF-8
+
+            int langSize = lang.length;
+
+            int textLength = text.length;
+
+            ByteArrayOutputStream payload = new ByteArrayOutputStream(1 + langSize + textLength);
+
+            payload.write(text, 0, textLength);
+
+            NdefRecord record = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload.toByteArray());
+
+            NdefMessage message = new NdefMessage(new NdefRecord[]{record});
+
+            Ndef ndefTag = Ndef.get(tag);
+            if (ndefTag == null)
+            {
+                Log.i("NFCActivity","Formatting tag");
+                NdefFormatable nForm = NdefFormatable.get(tag);
+                if (nForm != null)
+                {
+                    try
+                    {
+                        nForm.connect();
+
                         try
                         {
-                            nForm.connect();
-
-                            try
+                            if(nForm.isConnected())
                             {
                                 nForm.format(message);
                             }
-                            catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             e.printStackTrace();
                         }
+                    }
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }
 
-                        finally
-                        {
-                            nForm.close();
-                        }
+                    finally
+                    {
+                        nForm.close();
                     }
                 }
-                else
-                {
-                    Log.i("NFCActivity","Writing tag");
-                    ndefTag.connect();
-                    ndefTag.writeNdefMessage(message);
-                    ndefTag.close();
-                }
-
-                tagResult.append("\nTag written");
             }
-            catch(Exception e)
+            else
             {
-                tagResult.append("\nTag failed to write");
-                e.printStackTrace();
+                Log.i("NFCActivity","Writing tag");
+                ndefTag.connect();
+                if(ndefTag.isConnected())
+                {
+                    ndefTag.writeNdefMessage(message);
+                }
+                ndefTag.close();
             }
+
+            tagResult.append("\nTag written");
+        }
+        catch(Exception e)
+        {
+            tagResult.append("\nTag failed to write");
+            e.printStackTrace();
         }
     }
 }
