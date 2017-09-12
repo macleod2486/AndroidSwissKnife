@@ -87,27 +87,28 @@ public class NFCActivity extends Activity
             {
                 Log.i("NFCActivity","Tech list "+tag.getTechList()[index]);
 
-                techLoop: switch (tag.getTechList()[index])
-                {
-                    case "Ndef":
-                    case "NdefFormatable":
-                    {
-                        readNDEFtag(tag, intent);
-                        validTech = true;
-                        break techLoop;
-                    }
-                    case "android.nfc.tech.MifareUltralight":
-                    {
-                        readMifareUltralight(tag);
-                        validTech = true;
-                        break techLoop;
-                    }
-                    default:
-                    {
-                        Log.i("NFCActivity","Defaulting");
-                        break;
+                if(!validTech) {
+                    techLoop:
+                    switch (tag.getTechList()[index]) {
+                        case "android.nfc.tech.Ndef":
+                        case "android.nfc.tech.NdefFormatable": {
+                            readNDEFtag(tag, intent);
+                            validTech = true;
+                            break techLoop;
+                        }
+                        case "android.nfc.tech.MifareUltralight": {
+                            readMifareUltralight(tag);
+                            validTech = true;
+                            break techLoop;
+                        }
+                        default: {
+                            Log.i("NFCActivity", "Defaulting");
+                            break;
+                        }
                     }
                 }
+                else
+                    break;
             }
 
             if(!validTech)
@@ -124,25 +125,33 @@ public class NFCActivity extends Activity
             {
                 Log.i("NFCActivity","Tech list "+tag.getTechList()[index]);
 
-                techLoop: switch (tag.getTechList()[index])
+                if(!validTech)
                 {
-                    case "Ndef":
-                    case "NdefFormatable":
+                    techLoop:
+                    switch (tag.getTechList()[index])
                     {
-                        writeNDEFtag(tag, bundleMessage);
-                        validTech = true;
-                        break techLoop;
-                    }
-                    case "android.nfc.tech.MifareUltralight":
-                    {
-                        writeMifareUltralight(tag, bundleMessage);
-                    }
-                    default:
-                    {
-                        Log.i("NFCActivity","Defaulting");
-                        break;
+                        case "android.nfc.tech.Ndef":
+                        case "android.nfc.tech.NdefFormatable":
+                        {
+                            writeNDEFtag(tag, bundleMessage);
+                            validTech = true;
+                            break techLoop;
+                        }
+                        case "android.nfc.tech.MifareUltralight":
+                        {
+                            writeMifareUltralight(tag, bundleMessage);
+                            validTech = true;
+                            break techLoop;
+                        }
+                        default:
+                        {
+                            Log.i("NFCActivity", "Defaulting");
+                            break techLoop;
+                        }
                     }
                 }
+                else
+                    break;
             }
 
             if(!validTech)
