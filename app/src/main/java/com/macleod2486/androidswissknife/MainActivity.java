@@ -26,6 +26,8 @@ import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -126,6 +128,21 @@ public class MainActivity extends AppCompatActivity
 
         //Displays the first fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.container, toggleFrag, "toggles").commit();
+    }
+
+    //Toggles open the drawer
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(drawer.isDrawerOpen(Gravity.START))
+        {
+            drawer.closeDrawers();
+        }
+        else
+        {
+            drawer.openDrawer(Gravity.START);
+        }
+        return true;
     }
 
     @Override
