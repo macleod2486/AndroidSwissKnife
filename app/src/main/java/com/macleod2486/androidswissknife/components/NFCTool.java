@@ -19,13 +19,16 @@
 package com.macleod2486.androidswissknife.components;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.nfc.tech.MifareClassic;
 import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcA;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +39,8 @@ import com.macleod2486.androidswissknife.R;
 
 public class NFCTool implements View.OnClickListener
 {
+    NfcManager manager;
+
     NfcAdapter adapter;
 
     FragmentActivity activity;
@@ -52,7 +57,8 @@ public class NFCTool implements View.OnClickListener
     {
         Log.i("NFCTool","Clicked");
 
-        adapter = NfcAdapter.getDefaultAdapter(activity.getApplicationContext());
+        this.manager = (NfcManager)activity.getSystemService(this.activity.getApplicationContext().NFC_SERVICE);
+        adapter = manager.getDefaultAdapter();
 
         if(view.getId() == R.id.writeNFC)
         {
@@ -81,7 +87,7 @@ public class NFCTool implements View.OnClickListener
     {
 
         Log.i("NFCTool","Message received "+message);
-        Intent nfcIntent = new Intent(activity.getApplicationContext(),NFCActivity.class);
+        Intent nfcIntent = new Intent(activity.getApplicationContext(), NFCActivity.class);
         nfcIntent.putExtra("NFCMode","write");
         nfcIntent.putExtra("NFCMessage",message);
         nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

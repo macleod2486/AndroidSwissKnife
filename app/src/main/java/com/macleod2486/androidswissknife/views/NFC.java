@@ -18,14 +18,19 @@
 
 package com.macleod2486.androidswissknife.views;
 
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.macleod2486.androidswissknife.R;
+import com.macleod2486.androidswissknife.components.NFCCallback;
 import com.macleod2486.androidswissknife.components.NFCTool;
 
 public class NFC extends Fragment
@@ -47,6 +52,23 @@ public class NFC extends Fragment
 
         clearText = (Button)view.findViewById(R.id.clearText);
         clearText.setOnClickListener(tool);
+
+        Log.i("NFCTool","Scanning");
+
+        NfcManager manager;
+        NfcAdapter adapter;
+
+        manager = (NfcManager)getActivity().getSystemService(getActivity().getApplicationContext().NFC_SERVICE);
+        adapter = manager.getDefaultAdapter();
+
+        NFCCallback callback = new NFCCallback(getActivity());
+
+        Bundle opts = new Bundle();
+        opts.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 5000);
+
+        adapter.enableReaderMode(getActivity(), callback, NfcAdapter.FLAG_READER_NFC_A, opts);
+
+        Toast.makeText(this.getActivity(), "Please scan tag with device.", Toast.LENGTH_LONG).show();
 
         return view;
     }

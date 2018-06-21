@@ -11,27 +11,35 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/textEntry"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/writeNFC" />
-
     <Button
-        android:text="Clear Text"
+        android:id="@+id/clearText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/clearText"
-        android:layout_above="@+id/textEntry"
-        android:layout_toLeftOf="@+id/writeNFC"
+        android:layout_above="@+id/scrollView2"
+        android:layout_marginEnd="14dp"
         android:layout_toStartOf="@+id/writeNFC"
-        android:layout_marginRight="14dp"
-        android:layout_marginEnd="14dp" />
+        android:text="Clear Text" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/writeNFC"
+        android:layout_marginTop="56dp"
+        android:id="@+id/scrollView2">
+
+        <EditText
+            android:id="@+id/textEntry"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/writeNFC"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+    </ScrollView>
 
 </RelativeLayout>
