@@ -21,26 +21,13 @@ package com.macleod2486.androidswissknife.components;
 import android.app.Activity;
 import android.content.Intent;
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
-import android.nfc.tech.MifareUltralight;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.macleod2486.androidswissknife.R;
-
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
-import java.util.Locale;
 
 public class NFCActivity extends Activity
 {

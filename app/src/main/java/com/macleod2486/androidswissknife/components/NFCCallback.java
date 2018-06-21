@@ -19,13 +19,11 @@
 package com.macleod2486.androidswissknife.components;
 
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.util.Log;
-import android.view.View;
 import android.support.v4.app.FragmentActivity;
 import android.widget.EditText;
 
