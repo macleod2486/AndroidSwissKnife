@@ -101,9 +101,10 @@ public class NFCTool implements View.OnClickListener
 
         IntentFilter[] filterArray = new IntentFilter[] {filter};
 
-        String [][] techListsArray = new String[][] { new String[] { MifareUltralight.class.getName(), Ndef.class.getName(), NfcA.class.getName()},
-                new String[] { MifareClassic.class.getName(), Ndef.class.getName(), NfcA.class.getName()}};
+        String [][] techListsArray = new String[][] { new String[] {Ndef.class.getName()},
+                new String[] {Ndef.class.getName()}};
 
+        adapter.disableReaderMode(activity);
         adapter.enableForegroundDispatch(activity, pendingIntent, filterArray, techListsArray);
 
         Toast.makeText(this.activity, "Please scan tag with device.", Toast.LENGTH_LONG).show();

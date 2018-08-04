@@ -45,6 +45,10 @@ public class NFCActivity extends Activity
 
         onNewIntent(getIntent());
 
+        mode = getIntent().getStringExtra("NFCMode");
+
+        Log.i("NFCActivity", "NFCMode "+mode);
+
         Log.i("NFCActivity","Tag "+getIntent().getAction());
     }
 
@@ -61,10 +65,11 @@ public class NFCActivity extends Activity
             if (rawMessages != null)
             {
                 NdefMessage[] messages = new NdefMessage[rawMessages.length];
-                for (int i = 0; i < rawMessages.length; i++) {
+                for (int i = 0; i < rawMessages.length; i++)
+                {
                     messages[i] = (NdefMessage) rawMessages[i];
+                    Log.i("NFCActivity", "Received message "+messages[0]);
                 }
-                Log.i("NFCActivity", "Received message "+messages[0]);
             }
         }
     }

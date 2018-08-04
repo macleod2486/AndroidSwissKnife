@@ -86,6 +86,7 @@ public class NFCCallback implements NfcAdapter.ReaderCallback
                         {
                             format.format(null);
                             nfcData = "Formatted";
+                            Log.i("NFCCallback", "Formatted");
                         }
                         catch(Exception e)
                         {
@@ -110,6 +111,7 @@ public class NFCCallback implements NfcAdapter.ReaderCallback
                     public void run()
                     {
                         tagResult.setText("");
+                        Log.i("NFCCallback", "Cleared");
                         tagResult.append(nfcData);
                     }
                 });
