@@ -15,26 +15,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
+package com.macleod2486.androidswissknife.components
 
-package com.macleod2486.androidswissknife.components;
+import android.content.Intent
+import android.provider.Settings
+import android.support.v4.app.FragmentActivity
+import android.view.View
 
-import android.content.Intent;
-import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-
-public class Location implements View.OnClickListener
-{
-    FragmentActivity activity;
-
-    public Location(FragmentActivity activity)
-    {
-        this.activity = activity;
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-        this.activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+class Location(var activity: FragmentActivity) : View.OnClickListener {
+    override fun onClick(view: View) {
+        activity.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
     }
 }
