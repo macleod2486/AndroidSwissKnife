@@ -30,8 +30,8 @@ import android.widget.Toast
 
 class Flashlight(var activity: FragmentActivity, var requestCode: Int) : View.OnClickListener {
     var torchOn = false
-    var cam: Camera? = null
-    var p: Camera.Parameters? = null
+    lateinit var cam: Camera
+    lateinit var p: Camera.Parameters
     override fun onClick(view: View) {
         Log.i("Flashlight", "Current toggle $torchOn")
         if (checkPermissions()) {
@@ -71,8 +71,8 @@ class Flashlight(var activity: FragmentActivity, var requestCode: Int) : View.On
     private fun turnOffLight() {
         Log.i("Flashlight", "Toggling off light")
         torchOn = false
-        cam!!.stopPreview()
-        cam!!.release()
+        cam.stopPreview()
+        cam.release()
     }
 
     private fun checkPermissions(): Boolean {
