@@ -32,13 +32,13 @@ import android.widget.Toast
 import com.macleod2486.androidswissknife.R
 
 class NFCTool(var activity: FragmentActivity) : View.OnClickListener {
-    var manager: NfcManager? = null
-    var adapter: NfcAdapter? = null
-    var entryText: EditText? = null
+    lateinit var manager: NfcManager
+    lateinit var adapter: NfcAdapter
+    lateinit var entryText: EditText
     override fun onClick(view: View) {
         Log.i("NFCTool", "Clicked")
         manager = activity.getSystemService(Context.NFC_SERVICE) as NfcManager
-        adapter = manager!!.defaultAdapter
+        adapter = manager.defaultAdapter
         if (view.id == R.id.writeNFC) {
             adapter.disableForegroundDispatch(activity)
             Log.i("NFCTool", "Writing")
@@ -47,14 +47,14 @@ class NFCTool(var activity: FragmentActivity) : View.OnClickListener {
         if (view.id == R.id.clearText) {
             Log.i("NFCTool", "Clearing text")
             entryText = activity.findViewById<View>(R.id.textEntry) as EditText
-            entryText!!.setText("")
+            entryText.setText("")
         }
     }
 
     private fun write() {
         Log.i("NFCTool", "Write")
         entryText = activity.findViewById<View>(R.id.textEntry) as EditText
-        setUpWrite(entryText!!.text.toString())
+        setUpWrite(entryText.text.toString())
     }
 
     private fun setUpWrite(message: String) {
@@ -70,8 +70,8 @@ class NFCTool(var activity: FragmentActivity) : View.OnClickListener {
         filter.addAction(NfcAdapter.ACTION_TECH_DISCOVERED)
         val filterArray = arrayOf(filter)
         val techListsArray = arrayOf(arrayOf(Ndef::class.java.name), arrayOf(Ndef::class.java.name))
-        adapter!!.disableReaderMode(activity)
-        adapter!!.enableForegroundDispatch(activity, pendingIntent, filterArray, techListsArray)
+        adapter.disableReaderMode(activity)
+        adapter.enableForegroundDispatch(activity, pendingIntent, filterArray, techListsArray)
         Toast.makeText(activity, "Please scan tag with device.", Toast.LENGTH_LONG).show()
     }
 }

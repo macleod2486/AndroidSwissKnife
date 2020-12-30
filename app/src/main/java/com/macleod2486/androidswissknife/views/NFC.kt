@@ -33,22 +33,22 @@ import com.macleod2486.androidswissknife.components.NFCCallback
 import com.macleod2486.androidswissknife.components.NFCTool
 
 class NFC : Fragment() {
-    var writeNFC: Button? = null
-    var clearText: Button? = null
-    var tool: NFCTool? = null
+    lateinit var writeNFC: Button
+    lateinit var clearText: Button
+    lateinit var tool: NFCTool
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.nfc, container, false)
-        tool = NFCTool(activity)
+        tool = NFCTool(requireActivity())
         writeNFC = view.findViewById<View>(R.id.writeNFC) as Button
-        writeNFC!!.setOnClickListener(tool)
+        writeNFC.setOnClickListener(tool)
         clearText = view.findViewById<View>(R.id.clearText) as Button
-        clearText!!.setOnClickListener(tool)
+        clearText.setOnClickListener(tool)
         Log.i("NFCTool", "Scanning")
         val manager: NfcManager
         val adapter: NfcAdapter
         manager = activity!!.getSystemService(Context.NFC_SERVICE) as NfcManager
         adapter = manager.defaultAdapter
-        val callback = NFCCallback(activity)
+        val callback = NFCCallback(requireActivity())
         val opts = Bundle()
         opts.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 5000)
         adapter.enableReaderMode(activity, callback, NfcAdapter.FLAG_READER_NFC_A, opts)

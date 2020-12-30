@@ -31,12 +31,12 @@ import com.macleod2486.androidswissknife.components.Wifi
 
 class Toggles : Fragment() {
     //Location
-    var toggleLocation: Button? = null
-    var location: Location? = null
+    lateinit var toggleLocation: Button
+    lateinit var location: Location
 
     //Torch
-    var toggleLight: Button? = null
-    var toggleLightListener: Flashlight? = null
+    lateinit var toggleLight: Button
+    lateinit var toggleLightListener: Flashlight
 
     //Wifi
     var toggleWifi: Button? = null
@@ -46,23 +46,23 @@ class Toggles : Fragment() {
         val view = inflater.inflate(R.layout.toggles, container, false)
         toggleLight = view.findViewById<View>(R.id.toggleLight) as Button
         if (activity!!.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            toggleLightListener = Flashlight(activity, CAMERA_CODE)
-            toggleLight!!.setOnClickListener(toggleLightListener)
+            toggleLightListener = Flashlight(requireActivity(), CAMERA_CODE)
+            toggleLight.setOnClickListener(toggleLightListener)
         }
         toggleWifi = view.findViewById<View>(R.id.toggleWifi) as Button
         if (activity!!.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)) {
-            toggleWifiListener = Wifi(activity)
+            toggleWifiListener = Wifi(requireActivity())
             toggleWifi!!.setOnClickListener(toggleWifiListener)
         }
         toggleLocation = view.findViewById<View>(R.id.toggleGps) as Button
         if (activity!!.packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-            location = Location(activity)
-            toggleLocation!!.setOnClickListener(location)
+            location = Location(requireActivity())
+            toggleLocation.setOnClickListener(location)
         }
         return view
     }
 
     fun toggleLight() {
-        toggleLightListener!!.toggleLight()
+        toggleLightListener.toggleLight()
     }
 }
