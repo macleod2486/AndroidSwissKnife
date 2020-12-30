@@ -29,7 +29,7 @@ import com.macleod2486.androidswissknife.R
 class NFCActivity : Activity() {
     var tagResult: TextView? = null
     var mode: String? = null
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("NFCActivity", "On create")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nfctaglayout)
