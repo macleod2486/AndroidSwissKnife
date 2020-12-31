@@ -19,18 +19,17 @@ package com.macleod2486.androidswissknife
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.legacy.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.macleod2486.androidswissknife.views.NFC
 import com.macleod2486.androidswissknife.views.Toggles
 
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         //Configures the drawer
         drawer = findViewById<View>(R.id.drawer) as DrawerLayout
-        drawerToggle = object : ActionBarDrawerToggle(this, drawer, R.mipmap.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+        drawerToggle = object : ActionBarDrawerToggle(this, drawer, R.string.drawer_open, R.string.drawer_close) {
             override fun onDrawerClosed(view: View) {
                 supportActionBar!!.setTitle(R.string.drawer_close)
                 super.onDrawerClosed(view)
