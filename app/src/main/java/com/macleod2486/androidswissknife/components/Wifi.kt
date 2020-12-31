@@ -19,7 +19,7 @@ package com.macleod2486.androidswissknife.components
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.util.Log
 import android.view.View
 

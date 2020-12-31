@@ -21,7 +21,7 @@ import android.nfc.NfcAdapter.ReaderCallback
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.util.Log
 import android.widget.EditText
 import com.macleod2486.androidswissknife.R

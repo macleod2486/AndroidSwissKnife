@@ -21,9 +21,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
+import androidx.core.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.Toast

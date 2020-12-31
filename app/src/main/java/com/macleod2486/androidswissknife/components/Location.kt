@@ -19,7 +19,7 @@ package com.macleod2486.androidswissknife.components
 
 import android.content.Intent
 import android.provider.Settings
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.view.View
 
 class Location(var activity: FragmentActivity) : View.OnClickListener {

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.macleod2486.androidswissknife.MainActivity">
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/drawer">
@@ -24,6 +24,6 @@
             android:background="#FFFFFF"
             android:id="@+id/optionList"/>
 
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>

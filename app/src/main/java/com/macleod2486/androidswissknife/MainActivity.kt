@@ -19,10 +19,10 @@ package com.macleod2486.androidswissknife
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActionBarDrawerToggle
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
+import androidx.legacy.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     //Request codes
     val CAMERA_CODE = 0
-    private var drawer: DrawerLayout? = null
-    private var drawerToggle: ActionBarDrawerToggle? = null
+    lateinit private var drawer: DrawerLayout
+    lateinit private var drawerToggle: ActionBarDrawerToggle
 
     //Different fragments
     var toggleFrag = Toggles()
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
 
     //Manages what the back button does
     override fun onBackPressed() {
-        if (drawer!!.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             Log.i("Main", "Drawer closed")
-            drawer!!.closeDrawers()
+            drawer.closeDrawers()
         }
         if (index == 0 && !toggleFrag.isAdded) {
             supportFragmentManager.beginTransaction().replace(R.id.container, toggleFrag, "main").commit()
@@ -76,8 +76,8 @@ class MainActivity : AppCompatActivity() {
                 super.onDrawerOpened(drawerView)
             }
         }
-        drawer!!.setDrawerListener(drawerToggle)
-        drawer!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        drawer.setDrawerListener(drawerToggle)
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
         //Sets up the listview within the drawer
         val menuList = resources.getStringArray(R.array.menu)
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 index = 1
                 supportFragmentManager.beginTransaction().replace(R.id.container, nfcFrag, "nfc").commit()
             }
-            drawer!!.closeDrawers()
+            drawer.closeDrawers()
         }
 
         //Make the actionbar clickable to bring out the drawer
@@ -105,10 +105,10 @@ class MainActivity : AppCompatActivity() {
 
     //Toggles open the drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawer!!.isDrawerOpen(Gravity.START)) {
-            drawer!!.closeDrawers()
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawers()
         } else {
-            drawer!!.openDrawer(Gravity.START)
+            drawer.openDrawer(GravityCompat.START)
         }
         return true
     }
